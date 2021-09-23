@@ -25,27 +25,33 @@ public class ProductController {
     public ProductController(ProductService productService) {
         this.productService = productService;
     }
-
-    @PostMapping("products/admin/add")
+    //Admin Routes
+    @PostMapping("admin/products/add")
     @ResponseStatus(HttpStatus.CREATED)
     public void createProduct(@ModelAttribute ProductRequest productRequest, @RequestParam("imageFiles") MultipartFile[] files) {
         productService.createProduct(productRequest);
     }
 
-    @GetMapping("products/admin")
+    @GetMapping("admin/products")
     @ResponseStatus(HttpStatus.OK)
     public List<ProductResponse> getProducts() {
         return productService.getAllProducts();
     }
 
-    @GetMapping("products/admin/paginated")
+    @GetMapping("admin/products/paginated")
     @ResponseStatus(HttpStatus.OK)
     public ProductPaginatedResponse getProductsPaginated(@ModelAttribute ProductFilterRequest productFilterRequest) {
         return productService.getAllProductsPaginated(productFilterRequest.getPage(), productFilterRequest.getSize(), productFilterRequest.getSort(), productFilterRequest.getOrder(), productFilterRequest.getSearch());
     }
 
+    //Visitor Routes
 
-    //    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("products")
+    @ResponseStatus(HttpStatus.OK)
+    public List<ProductResponse> getVisitorProducts() {
+        return productService.getAllProducts();
+    }
+
     @GetMapping("products/images/{imageName}")
     public ResponseEntity<?> downloadImageFromFileSystem(@PathVariable String imageName) throws IOException {
         byte[] imageData = productService.downloadImageFromFileSystem(imageName);
