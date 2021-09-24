@@ -1,9 +1,12 @@
 package com.micro.product.dto;
 
+import java.util.List;
+
 public class CategoryResponse {
     private Long id;
-
     private String name;
+
+    private String image;
 
     public String getName() {
         return name;
@@ -20,4 +23,13 @@ public class CategoryResponse {
     public void setId(Long id) {
         this.id = id;
     }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
 }

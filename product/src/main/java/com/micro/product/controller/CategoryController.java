@@ -14,7 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/products/categories")
+@RequestMapping("api/")
 public class CategoryController {
 
     private final CategoryService categoryService;
@@ -22,16 +22,23 @@ public class CategoryController {
     public CategoryController(CategoryService categoryService) {
         this.categoryService = categoryService;
     }
-
-    @PostMapping("add")
+    //Admin Routes
+    @PostMapping("admin/products/categories/add")
     @ResponseStatus(HttpStatus.CREATED)
-    public void createCategory(@ModelAttribute CategoryRequest categoryRequest) {
+    public void createCategory(@ModelAttribute CategoryRequest categoryRequest, @RequestParam("imageFile") MultipartFile file) {
         categoryService.createCategory(categoryRequest);
     }
 
-    @GetMapping
+    @GetMapping("admin/products/categories")
     @ResponseStatus(HttpStatus.OK)
     public List<CategoryResponse> getProducts() {
+        return categoryService.getAllCategories();
+    }
+    //Visitor Routes
+
+    @GetMapping("products/categories")
+    @ResponseStatus(HttpStatus.OK)
+    public List<CategoryResponse> getCategories() {
         return categoryService.getAllCategories();
     }
 }
